@@ -17,6 +17,7 @@ template "root/Gemfile", "Gemfile"
 inside 'config' do
   remove_file 'database.yml'
   template 'database.yml'
+  template 'unicorn.rb'
 end
 
 # Generate .env files
