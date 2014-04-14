@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
-ruby File.read(".ruby-version").strip.split("-")[1]
+ruby File.read(Dir.getwd + "/.ruby-version").strip.split("-").first
 gem 'dotenv-rails', :groups => [:development, :test] # needs to be at top
 
-gem 'rails'
+gem 'rails', '~> 4.1.0'
 gem 'pg'
 
 gem 'sass-rails', '~> 4.0.0'
@@ -16,6 +16,7 @@ group :test, :development do
   gem 'guard-rspec', require: false
   gem 'pry-debugger'
   gem 'i18n-tasks', '~> 0.2.10' # Gem for testing i18n
+  gem 'spring'
 end
 
 group :test do

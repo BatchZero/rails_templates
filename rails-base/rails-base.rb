@@ -2,17 +2,17 @@ def source_paths
   Array(super) + [File.join(File.expand_path(File.dirname(__FILE__)),'rails_root')]
 end
 
+RUBY_VERSION = "2.1.0"
+
 git :init
 
 remove_dir "test"
 
 run "touch .ruby-version"
-append_file ".ruby-version", ENV['RUBY_VERSION']
+append_file ".ruby-version", RUBY_VERSION.to_s
 
 remove_file "Gemfile"
 template "root/Gemfile", "Gemfile"
-
-run "bundle install"
 
 inside 'config' do
   remove_file 'database.yml'
@@ -43,7 +43,8 @@ generate "rspec:install"
 
 rake "db:create"
 rake "db:migrate"
-rake "db:test:prepare"
 
 git add: "."
 git commit: %Q{ -m 'Initial commit' }
+
+run "cd #{@app_name}"
