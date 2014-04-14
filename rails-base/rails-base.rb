@@ -37,9 +37,15 @@ DB_USER=#{db_user}
 DB_PASSWORD=#{db_pass}
 TEXT
 
-generate(:controller, "pages") if yes?("Generate static pages controller? [Yn]")
-
 generate "rspec:install"
+
+inside 'spec' do
+  remove_file 'spec_helper.rb'
+  template 'spec_helper.rb'
+  inside 'support' do
+    template 'database_cleaner.rb'
+  end
+end
 
 rake "db:create"
 rake "db:migrate"
