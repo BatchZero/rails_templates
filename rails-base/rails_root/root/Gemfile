@@ -17,6 +17,7 @@ group :test, :development do
   gem 'pry-debugger'
   gem 'i18n-tasks', '~> 0.2.10' # Gem for testing i18n
   gem 'spring'
+  gem 'rubocop', require: false
 end
 
 group :test do
