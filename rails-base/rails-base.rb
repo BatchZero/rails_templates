@@ -15,6 +15,8 @@ remove_file 'Gemfile'
 template 'root/Gemfile', 'Gemfile'
 remove_file '.gitignore'
 template 'root/.gitignore', '.gitignore'
+remove_file 'README.rdoc'
+template 'root/README.md.erb', 'README.md'
 
 inside 'config' do
   config = <<-RUBY
