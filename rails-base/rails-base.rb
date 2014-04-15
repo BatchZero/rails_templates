@@ -31,6 +31,7 @@ inside 'config' do
 
   template 'database.yml', force: true
   template 'unicorn.rb'
+  template 'i18n-tasks.yml'
 
   inside 'initializers' do
     file 'secret_token.rb', <<-RUBY
@@ -90,7 +91,7 @@ append_file 'Rakefile' do
 end
 
 rake 'db:create db:migrate'
-rake 'db:create RAILS_ENV=test'
+rake 'db:create db:migrate RAILS_ENV=test'
 
 git add: '.'
 git commit: %Q{ -m 'Initial commit' -q }
