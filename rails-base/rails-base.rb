@@ -76,6 +76,7 @@ inside 'spec' do
     template 'database_cleaner.rb'
     template 'factory_girl_rspec.rb'
   end
+  empty_directory_with_keep_file 'features'
 end
 
 rake "db:create"
