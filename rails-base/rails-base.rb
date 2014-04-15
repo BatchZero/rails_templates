@@ -12,11 +12,11 @@ run 'touch .ruby-version'
 append_file '.ruby-version', RUBY_VERSION
 
 remove_file 'Gemfile'
-template 'root/Gemfile', 'Gemfile'
+template 'Gemfile'
 remove_file '.gitignore'
-template 'root/.gitignore', '.gitignore'
+template '.gitignore'
 remove_file 'README.rdoc'
-template 'root/README.md.erb', 'README.md'
+template 'README.md.erb', 'README.md'
 
 inside 'config' do
   config = <<-RUBY
