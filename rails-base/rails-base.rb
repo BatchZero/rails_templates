@@ -29,6 +29,17 @@ inside 'config' do
   RUBY
   inject_into_class 'application.rb', 'Application', config
 
+  inside 'environments' do
+    config = <<-RUBY
+
+  # Enable deflate / gzip compression of controller-generated responses
+  config.middleware.use Rack::Deflater
+    RUBY
+
+    inject_into_file 'production.rb', config,
+      :after => "config.serve_static_assets = false\n"
+  end
+
   template 'database.yml', force: true
   template 'unicorn.rb'
   template 'i18n-tasks.yml'
