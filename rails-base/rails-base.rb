@@ -74,6 +74,7 @@ generate 'rspec:install'
 inside 'spec' do
   remove_file 'spec_helper.rb'
   template 'spec_helper.rb'
+  template 'i18n_spec.rb'
   inside 'support' do
     template 'database_cleaner.rb'
     template 'factory_girl_rspec.rb'
@@ -81,6 +82,7 @@ inside 'spec' do
   empty_directory_with_keep_file 'features'
   empty_directory_with_keep_file 'lib'
   empty_directory_with_keep_file 'helpers'
+  empty_directory_with_keep_file 'factories'
 end
 
 append_file 'Rakefile' do
@@ -88,6 +90,7 @@ append_file 'Rakefile' do
 end
 
 rake 'db:create db:migrate'
+rake 'db:create RAILS_ENV=test'
 
 git add: '.'
 git commit: %Q{ -m 'Initial commit' -q }
