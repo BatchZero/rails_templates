@@ -9,15 +9,32 @@ git :init
 remove_dir "test"
 
 run "touch .ruby-version"
-append_file ".ruby-version", RUBY_VERSION.to_s
+append_file ".ruby-version", RUBY_VERSION
 
 remove_file "Gemfile"
 template "root/Gemfile", "Gemfile"
 
 inside 'config' do
-  remove_file 'database.yml'
-  template 'database.yml'
+  template 'database.yml', force: true
   template 'unicorn.rb'
+
+  inside 'initializers' do
+    file 'secret_token.rb', <<-RUBY
+      #{@app_const}.config.secret_key_base = ENV['SECRET_TOKEN'] || "A" * 20
+    RUBY
+  end
+end
+
+inside 'app' do
+  inside 'views' do
+    inside 'layouts' do
+      template 'application.html.erb', force: true
+    end
+
+    inside 'shared' do
+      template '_flashes.html.erb'
+    end
+  end
 end
 
 # Generate .env files
