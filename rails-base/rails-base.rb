@@ -62,6 +62,7 @@ inside 'spec' do
   template 'spec_helper.rb'
   inside 'support' do
     template 'database_cleaner.rb'
+    template 'factory_girl.rb'
   end
 end
 
