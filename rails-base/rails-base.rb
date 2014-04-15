@@ -15,6 +15,18 @@ remove_file "Gemfile"
 template "root/Gemfile", "Gemfile"
 
 inside 'config' do
+  config = <<-RUBY
+    config.generators do |generate|
+      generate.helper false
+      generate.request_specs false
+      generate.routing_specs false
+      generate.test_framework :rspec
+      generate.view_specs false
+    end
+
+  RUBY
+  inject_into_class 'application.rb', 'Application', config
+
   template 'database.yml', force: true
   template 'unicorn.rb'
 
@@ -62,7 +74,7 @@ inside 'spec' do
   template 'spec_helper.rb'
   inside 'support' do
     template 'database_cleaner.rb'
-    template 'factory_girl.rb'
+    template 'factory_girl_rspec.rb'
   end
 end
 
