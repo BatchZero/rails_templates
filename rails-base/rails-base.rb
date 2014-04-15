@@ -79,13 +79,15 @@ inside 'spec' do
     template 'factory_girl_rspec.rb'
   end
   empty_directory_with_keep_file 'features'
+  empty_directory_with_keep_file 'lib'
+  empty_directory_with_keep_file 'helpers'
 end
 
-rake 'db:create'
-rake 'db:migrate'
+append_file 'Rakefile' do
+  "task(:default).clear\ntask :default => [:spec]\n"
+end
 
+rake 'db:create db:migrate'
 
 git add: '.'
-git commit: %Q{ -m 'Initial commit' }
-
-run "cd #{@app_name}"
+git commit: %Q{ -m 'Initial commit' -q }
