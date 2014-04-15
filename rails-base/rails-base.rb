@@ -2,17 +2,19 @@ def source_paths
   Array(super) + [File.join(File.expand_path(File.dirname(__FILE__)),'rails_root')]
 end
 
-RUBY_VERSION = "2.1.0"
+RUBY_VERSION = '2.1.0'
 
 git :init
 
-remove_dir "test"
+remove_dir 'test'
 
-run "touch .ruby-version"
-append_file ".ruby-version", RUBY_VERSION
+run 'touch .ruby-version'
+append_file '.ruby-version', RUBY_VERSION
 
-remove_file "Gemfile"
-template "root/Gemfile", "Gemfile"
+remove_file 'Gemfile'
+template 'root/Gemfile', 'Gemfile'
+remove_file '.gitignore'
+template 'root/.gitignore', '.gitignore'
 
 inside 'config' do
   config = <<-RUBY
@@ -50,8 +52,8 @@ inside 'app' do
 end
 
 # Generate .env files
-db_user = ask("What is your DB_USER?")
-db_pass = ask("What is your DB_PASS?")
+db_user = ask('What is your DB_USER?')
+db_pass = ask('What is your DB_PASS?')
 
 file '.env.development', <<-TEXT
 SECRET_TOKEN=#{ %x{ rake secret } }
@@ -67,7 +69,7 @@ DB_USER=#{db_user}
 DB_PASSWORD=#{db_pass}
 TEXT
 
-generate "rspec:install"
+generate 'rspec:install'
 
 inside 'spec' do
   remove_file 'spec_helper.rb'
@@ -79,10 +81,11 @@ inside 'spec' do
   empty_directory_with_keep_file 'features'
 end
 
-rake "db:create"
-rake "db:migrate"
+rake 'db:create'
+rake 'db:migrate'
 
-git add: "."
+
+git add: '.'
 git commit: %Q{ -m 'Initial commit' }
 
 run "cd #{@app_name}"
