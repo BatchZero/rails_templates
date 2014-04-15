@@ -1,5 +1,5 @@
 def source_paths
-  Array(super) + [File.join(File.expand_path(File.dirname(__FILE__)),'rails_root')]
+  [File.join(File.expand_path(File.dirname(__FILE__)),'rails_root')]
 end
 
 RUBY_VERSION = '2.1.0'
@@ -51,6 +51,13 @@ inside 'config' do
       #{@app_const}.config.secret_key_base = ENV['SECRET_TOKEN'] || "A" * 20
     RUBY
   end
+
+  inside 'locales' do
+    remove_file 'en.yml'
+    template 'en.yml'
+  end
+
+  remove_file 'secrets.yml'
 end
 
 inside 'app' do
@@ -94,9 +101,10 @@ inside 'spec' do
     template 'factory_girl_rspec.rb'
   end
   empty_directory_with_keep_file 'features'
-  empty_directory_with_keep_file 'lib'
   empty_directory_with_keep_file 'helpers'
   empty_directory_with_keep_file 'factories'
+  empty_directory_with_keep_file 'models'
+  empty_directory_with_keep_file 'controllers'
 end
 
 append_file 'Rakefile' do
